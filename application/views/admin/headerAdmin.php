@@ -52,7 +52,6 @@ $this->output->set_header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
                         $acesso = $this->session->userdata("usuario_logado")['nivel_acesso_id_nivel_acesso'];
                         $nivel = $this->Auth_model->buscaAcesso($acesso);
                         ?>
-
                     <?php if (verificaniveldeacesso($nivel, "Admin")) : ?>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownmerchan" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -91,7 +90,6 @@ $this->output->set_header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
                             </div>
                         </li>
                     <?php endif; ?>
-
             </ul>
 
             <ul class="navbar-nav ml-auto">
