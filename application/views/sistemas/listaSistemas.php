@@ -45,7 +45,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
   <table class="table table-striped">
     <thead>
       <tr>
-      
         <th><a href="<?= base_url('Admin_sistemas/listaSistemas/id_sistema/' . $pesquisa . "/" . $this->uri->segment(5)) ?>">Id<i class="fas fa-long-arrow-alt-down"></i></a></td>
         <th><a href="<?= base_url('Admin_sistemas/listaSistemas/novo_sistema/' . $pesquisa . "/" . $this->uri->segment(5)) ?>">Nome<i class="fas fa-long-arrow-alt-down"></i></a></td>
         <th>Editar</td>

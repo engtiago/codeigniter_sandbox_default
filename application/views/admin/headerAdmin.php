@@ -34,7 +34,7 @@ $this->output->set_header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a href="<?= base_url() ?>"><img class="navbar-brand" src="<?= base_url('assets/img/GRUPO_MAIS.png') ?>" alt="" style="width: 14%;"></a>
+        <a href="<?= base_url() ?>"><img class="navbar-brand" src="<?= base_url('assets/img/GRUPO_MAIS.png') ?>" alt=""></a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -52,6 +52,7 @@ $this->output->set_header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
                         $acesso = $this->session->userdata("usuario_logado")['nivel_acesso_id_nivel_acesso'];
                         $nivel = $this->Auth_model->buscaAcesso($acesso);
                         ?>
+
                     <?php if (verificaniveldeacesso($nivel, "Admin")) : ?>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownmerchan" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -63,10 +64,33 @@ $this->output->set_header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
                         </li>
                     <?php endif; ?>
 
+                    <?php if (verificaniveldeacesso($nivel, "Admin_usuarios")) : ?>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownmerchan" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Usuários
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownmerchan">
+                                <a class="dropdown-item" href="<?= base_url('Admin_usuarios/listaUsuarios') ?>">Usuários</a>
+                            </div>
+                        </li>
+                    <?php endif; ?>
+
+                    <?php if (verificaniveldeacesso($nivel, "Admin_sistemas")) : ?>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownmerchan" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Sistemas
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownmerchan">
+                                <a class="dropdown-item" href="<?= base_url('Admin_sistemas/listaSistemas') ?>">Sistemas</a>
+                                <a class="dropdown-item" href="<?= base_url('Admin_sistemas/novoSistema') ?>">Novo Sistema</a>
+                            </div>
+                        </li>
+                    <?php endif; ?>
+
                     <?php if (verificaniveldeacesso($nivel, "Admin_pessoa")) : ?>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownCarrousel" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Pessoa
+                                Pessoas Admin
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownCarrousel">
                                 <a class="dropdown-item" href="<?= base_url("Admin_pessoa/listapessoa") ?>">Pessoas</a>
@@ -110,5 +134,3 @@ $this->output->set_header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
     <?php endif ?>
 
     <main>
-
-   
