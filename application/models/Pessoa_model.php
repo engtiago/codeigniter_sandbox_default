@@ -2,6 +2,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 class Pessoa_model extends CI_Model
 {
+
 	public function salvaPessoa($pessoa)
 	{
 		$pessoainsert = array(
