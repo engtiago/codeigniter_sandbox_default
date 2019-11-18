@@ -15,9 +15,9 @@ class Login extends CI_Controller
 		if ($this->session->userdata("usuario_logado")) {
 			redirect(base_url() . "admin");
 		} else {
-			$data['title']    =    "Protocos - Marizafoods | Faça seu login";
+			$data['title']    =    "Sistemas TI| Faça seu login";
 			$data['description']    =    "Faça seu login";
-			$dados['titulo'] = "Área do Representante";
+			$dados['titulo'] = "Controle de Sistemas por usuário";
 			$this->load->templateadmin("login/login", $data, $dados);
 		}
 	}
@@ -71,6 +71,7 @@ class Login extends CI_Controller
 
 	public function logout()
 	{
+		
 		$this->session->unset_userdata("usuario_logado");
 		redirect(base_url());
 	}

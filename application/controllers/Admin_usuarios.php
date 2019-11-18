@@ -12,15 +12,13 @@ class Admin_usuarios extends CI_Controller
         Autentica($this);
         $this->load->model('Usuarios_model');
         //$this->output->enable_profiler(TRUE);
-
     }
 
     /*Area interna view
     ########################################## */
 
-    public function listaUsuarios($order_by = 'sistemas_id_sistemas', $pesquisa = 'all',$status =1,$setor = 'all',$cargo= 'all',$empresa= 'all',$dt_inicial='1900-01-01' , $dt_final='3000-12-31')
+    public function listaUsuarios($order_by = '', $pesquisa = 'all', $status = 1, $setor = 'all', $cargo = 'all', $empresa = 'all', $dt_inicial = '1900-01-01', $dt_final = '3000-12-31')
     {
-
         $this->load->model('Sistemas_model');
         $sistemas = $this->Sistemas_model->buscaTudoSistemas(100000000, 0, 'nome_sistema', null, 'asc')->result_array();
         $setores = $this->Usuarios_model->buscaDistictUsuarioRow('local');
@@ -33,7 +31,7 @@ class Admin_usuarios extends CI_Controller
             if ($post['pesquisa'] == '') {
                 $pesquisa = 'all';
             }
-            
+
             $setor = $post['setor'];
             if ($post['setor'] == '') {
                 $setor = 'all';
@@ -43,12 +41,12 @@ class Admin_usuarios extends CI_Controller
             if ($post['cargo'] == '') {
                 $cargo = 'all';
             }
-            
+
             $empresa = $post['empresa'];
             if ($post['empresa'] == '') {
                 $empresa = 'all';
             }
-            
+
             $dt_inicial = $post['dt_inicial'];
             if ($post['dt_inicial'] == '') {
                 $dt_inicial = '1900-01-01';
@@ -58,7 +56,7 @@ class Admin_usuarios extends CI_Controller
             if ($post['dt_final'] == '') {
                 $dt_final = '3000-12-31';
             }
-            
+
             $status = $post['status'];
         }
 
@@ -68,14 +66,14 @@ class Admin_usuarios extends CI_Controller
         $data['description'] = "Sistemas - TI";
         $page = ($this->uri->segment(11)) ? $this->uri->segment(11) : 0;
         $config = array(
-            "base_url" => base_url("Admin_Usuarios/listaUsuarios/$order_by/$pesquisa/$status/$setor/$cargo/$empresa/$dt_inicial/$dt_final"),
-            "total_rows" => $this->Usuarios_model->buscaTudoUsuarios(100000000, 0, $order_by, $pesquisa, null, $status,$setor,$cargo, $empresa,$dt_inicial,$dt_final)->num_rows(),
+            "base_url" => base_url("Admin_usuarios/listaUsuarios/$order_by/$pesquisa/$status/$setor/$cargo/$empresa/$dt_inicial/$dt_final"),
+            "total_rows" => count($this->Usuarios_model->buscaTudoUsuarios(100000000, 0, $order_by, $pesquisa, null, $status, $setor, $cargo, $empresa, $dt_inicial, $dt_final)),
             "per_page" => 15,
             "uri_segment" => 11
         );
         $config = array_merge($config, $this->load->configPagination());
         $this->pagination->initialize($config);
-        $usuarios = $this->Usuarios_model->buscaTudoUsuarios($config["per_page"], $page, $order_by, $pesquisa, 'DESC', $status,$setor,$cargo, $empresa,$dt_inicial,$dt_final)->result_array();
+        $usuarios = $this->Usuarios_model->buscaTudoUsuarios($config["per_page"], $page, $order_by, $pesquisa, 'DESC', $status, $setor, $cargo, $empresa, $dt_inicial, $dt_final);
         $usuariosProgramas = [];
         foreach ($usuarios as $key => $value) {
             $usuariosProgramas[$value['codigo']] = $this->Usuarios_model->buscaSistemasUsuarios($value['codigo']);
@@ -96,9 +94,8 @@ class Admin_usuarios extends CI_Controller
             'cargo' => $cargo,
             'empresas' => $empresas,
             'empresa' => $empresa,
-            'dt_inicial'=>$dt_inicial,
-            'dt_final'=>$dt_final 
-
+            'dt_inicial' => $dt_inicial,
+            'dt_final' => $dt_final
         );
 
         $this->load->templateAdmin('usuarios/listaUsuarios', $data, $dados);

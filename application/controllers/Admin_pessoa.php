@@ -3,10 +3,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Admin_pessoa extends CI_Controller
 {
+
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->helper('Auth_helper');Autentica($this);
+		$this->load->helper('Auth_helper');
+		Autentica($this);
 		$this->load->model("Pessoa_model");
 		$this->load->helper('Auth_helper');
 		//$this->output->enable_profiler(TRUE);
@@ -14,10 +16,10 @@ class Admin_pessoa extends CI_Controller
 
 	public function ver($ver)
 	{
-		print_r( $this->Pessoa_model->buscaPessoaId($ver));
+		print_r($this->Pessoa_model->buscaPessoaId($ver));
 	}
-	
-    #######################################################################
+
+	#######################################################################
 	public function novapessoa()
 	{
 		$data['title']    =    "Marizafoods | Nova Pessoa";
@@ -39,7 +41,7 @@ class Admin_pessoa extends CI_Controller
 		$this->load->model('Auth_model');
 		$nivel_acesso = $this->Auth_model->buscaTodosnivel_acesso();
 		$pessoa = $this->Pessoa_model->buscaPessoaId($id_pessoa);
-	
+
 		$dados = array(
 			'pessoa' => $pessoa,
 			'formsubmit' => 'Admin_pessoa/function_editPessoa',
@@ -48,34 +50,34 @@ class Admin_pessoa extends CI_Controller
 		$this->load->templateAdmin('pessoa/formPessoa', $data, $dados);
 	}
 
-	public function listaPessoa($order_by = 'nome_nivel_acesso',$pesquisa='all')
-    {
-        if($this->input->post()){
-           $pesquisa = $this->input->post('nome_pessoa');
-        }
+	public function listaPessoa($order_by = 'nome_nivel_acesso', $pesquisa = 'all')
+	{
+		if ($this->input->post()) {
+			$pesquisa = $this->input->post('nome_pessoa');
+		}
 
-        $this->load->library('pagination');
-        $data['title']    =    "Marizafoods | Lista de Pessoas";
-        $data['description']    =    "Lista de Pessoas";
-        $page = ($this->uri->segment(5)) ? $this->uri->segment(5) : 0;
-        $config = array(
-            "base_url" => base_url() . "Admin_pessoa/listaPessoa/$order_by/$pesquisa",
-            "total_rows" => $this->Pessoa_model->buscaTudoPessoas(100000000, 0,$order_by,$pesquisa)->num_rows(),
-            "per_page" => 15,
-            "uri_segment" => 5
-        );
-        $config = array_merge($config, $this->load->configPagination());
-        $this->pagination->initialize($config);
-        $pessoas = $this->Pessoa_model->buscaTudoPessoas($config["per_page"], $page,$order_by,$pesquisa)->result_array();
-        $dados = array(
-            'pessoas' => $pessoas,
-            'links' => $this->pagination->create_links(),
-            'pesquisa' => $pesquisa
-        );
-        $this->load->templateAdmin('pessoa/listaPessoa', $data, $dados);
+		$this->load->library('pagination');
+		$data['title']    =    "Marizafoods | Lista de Pessoas";
+		$data['description']    =    "Lista de Pessoas";
+		$page = ($this->uri->segment(5)) ? $this->uri->segment(5) : 0;
+		$config = array(
+			"base_url" => base_url() . "Admin_pessoa/listaPessoa/$order_by/$pesquisa",
+			"total_rows" => $this->Pessoa_model->buscaTudoPessoas(100000000, 0, $order_by, $pesquisa)->num_rows(),
+			"per_page" => 15,
+			"uri_segment" => 5
+		);
+		$config = array_merge($config, $this->load->configPagination());
+		$this->pagination->initialize($config);
+		$pessoas = $this->Pessoa_model->buscaTudoPessoas($config["per_page"], $page, $order_by, $pesquisa)->result_array();
+		$dados = array(
+			'pessoas' => $pessoas,
+			'links' => $this->pagination->create_links(),
+			'pesquisa' => $pesquisa
+		);
+		$this->load->templateAdmin('pessoa/listaPessoa', $data, $dados);
 	}
-	
-#############################################################################################################
+
+	#############################################################################################################
 	public function function_novapessoa()
 	{
 		$post = $this->input->post();
@@ -88,12 +90,7 @@ class Admin_pessoa extends CI_Controller
 			array(
 				'field'    =>    'senha_pessoa',
 				'label'    =>    'Senha',
-				'rules'    =>    'trim|required|min_length[3]|max_length[255]'
-			),
-			array(
-				'field'    =>    'email_pessoa',
-				'label'    =>    'Email',
-				'rules'    =>    'is_unique[pessoa.email_pessoa]|valid_email|trim|required|min_length[3]|max_length[255]'
+				'rules'    =>    'trim|min_length[3]|max_length[255]'
 			),
 			array(
 				'field'    =>    'nivel_acesso_id_nivel_acesso',
@@ -101,12 +98,41 @@ class Admin_pessoa extends CI_Controller
 				'rules'    =>    'trim|required|integer'
 			),
 			array(
-				'field'    =>    'setor_id',
-				'label'    =>    'Setor',
-				'rules'    =>    'trim|required|integer'
+				'field'    =>    'cep_endereco',
+				'label'    =>    'CEP',
+				'rules'    =>    'trim|required|min_length[3]|max_length[255]'
+			),
+			array(
+				'field'    =>    'logradouro_endereco',
+				'label'    =>    'Logradouro',
+				'rules'    =>    'trim|required|min_length[3]|max_length[255]'
+			),
+			array(
+				'field'    =>    'bairro_endereco',
+				'label'    =>    'Bairro',
+				'rules'    =>    'trim|required|min_length[3]|max_length[255]'
+			),
+			array(
+				'field'    =>    'numero_endereco',
+				'label'    =>    'Numero',
+				'rules'    =>    'trim|required|min_length[1]|max_length[255]'
+			),
+			array(
+				'field'    =>    'cidade_endereco',
+				'label'    =>    'Cidade',
+				'rules'    =>    'trim|required|min_length[3]|max_length[255]'
+			),
+			array(
+				'field'    =>    'uf_endereco',
+				'label'    =>    'UF-Estado',
+				'rules'    =>    'trim|required|min_length[1]|max_length[255]'
+			),
+			array(
+				'field'    =>    'complemento_endereco',
+				'label'    =>    'Cidade',
+				'rules'    =>    'trim|min_length[3]|max_length[255]'
 			)
 		);
-
 		$this->form_validation->set_rules($rules);
 		$validacaoForm = $this->form_validation->run();
 		if ($validacaoForm) {
@@ -129,22 +155,21 @@ class Admin_pessoa extends CI_Controller
 				'strongMsg' => '<i class="fas fa-check"></i> Sucesso',
 				'msg' => 'Pessoa cadastrada'
 			));
-			 redirect(base_url().'Admin_pessoa/novapessoa');
+			redirect(base_url() . 'Admin_pessoa/novapessoa');
 		} else {
 			$this->session->set_flashdata('alert', array(
 				'tipo' => 'danger',
 				'strongMsg' => '<i class="fas fa-times"></i> Erro ao cadastrar Pessoa',
 				'msg' => validation_errors()
 			));
-		 redirect(base_url().'Admin_pessoa/novapessoa');	
+			redirect(base_url() . 'Admin_pessoa/novapessoa');
 		}
 	}
-#############################################################################################################
+
+	#############################################################################################################
 	public function function_editPessoa()
 	{
 		$post = $this->input->post();
-		print_r($post);
-		exit;
 		$rules    =    array(
 			array(
 				'field'    =>    'id_pessoa',
@@ -218,11 +243,10 @@ class Admin_pessoa extends CI_Controller
 				'uf_endereco' => $post['uf_endereco'],
 				'complemento_endereco' => $post['complemento_endereco']
 			);
-			
-			// verifica senha
-			if($post['senha_pessoa'] == ""){
+
+			if ($post['senha_pessoa'] == "") {
 				$pessoa['senha_pessoa'] = $post['senha_pessoa_escondido'];
-			}else{
+			} else {
 				$pessoa['senha_pessoa'] = md5($post['senha_pessoa']);
 			}
 
@@ -232,16 +256,13 @@ class Admin_pessoa extends CI_Controller
 				'strongMsg' => '<i class="fas fa-check"></i> Sucesso',
 				'msg' => 'Pessoa Editada'
 			));
-			 redirect(base_url()."Admin_pessoa/editPessoa/{$post['id_pessoa']}");
 		} else {
 			$this->session->set_flashdata('alert', array(
 				'tipo' => 'danger',
 				'strongMsg' => '<i class="fas fa-times"></i> Erro ao cadastrar Pessoa',
 				'msg' => validation_errors()
 			));
-		 redirect(base_url()."Admin_pessoa/editPessoa/{$post['id_pessoa']}");	
 		}
-
+		redirect(base_url("Admin_pessoa/editPessoa/{$post['id_pessoa']}"));
 	}
-
 }

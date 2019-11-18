@@ -53,7 +53,7 @@ $this->output->set_header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
                         $nivel = $this->Auth_model->buscaAcesso($acesso);
                         ?>
 
-                    <?php if (verificaniveldeacesso($nivel, "Admin")) : ?>
+                    <!-- <?php if (verificaniveldeacesso($nivel, "Admin")) : ?>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownmerchan" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Dashboard
@@ -62,7 +62,7 @@ $this->output->set_header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
                                 <a class="dropdown-item" href="<?= base_url() ?>">Lorem</a>
                             </div>
                         </li>
-                    <?php endif; ?>
+                    <?php endif; ?> -->
 
                     <?php if (verificaniveldeacesso($nivel, "Admin_usuarios")) : ?>
                         <li class="nav-item dropdown">

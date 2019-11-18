@@ -50,7 +50,6 @@ class Admin_sistemas extends CI_Controller
         $data['title']       = "Sistemas - TI";
         $data['description'] = "Sistemas - TI";
         $page = ($this->uri->segment(5)) ? $this->uri->segment(5) : 0;
-        print_r($page);
         $config = array(
             "base_url" => base_url("Admin_sistemas/listaSistemas/$order_by/$pesquisa"),
             "total_rows" => $this->Sistemas_model->buscaTudoSistemas(100000000, 0, $order_by, $pesquisa)->num_rows(),

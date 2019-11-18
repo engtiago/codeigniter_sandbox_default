@@ -10,7 +10,6 @@ class Usuarios_model extends CI_Model
     $cargo = urldecode($cargo);
     $empresa = urldecode($empresa);
 
-
     if ($pesquisa != 'all') {
       $this->db->like('nome', $pesquisa);
     }
@@ -40,8 +39,8 @@ class Usuarios_model extends CI_Model
     $this->db->join('sistemas_has_usuarios_sistemas', 'usuarios_sistemas_codigo = codigo', 'left');
     $this->db->where('status', $status);
     $this->db->limit($limit, $start);
-    $this->db->order_by($order_by, $ordem, true);
-    return $this->db->get();
+    //$this->db->order_by($order_by, $ordem, true);
+    return $this->db->get()->result_array();
   }
 
   public function buscaSistemasUsuarios($codigo)
@@ -92,5 +91,17 @@ class Usuarios_model extends CI_Model
     $this->db->distinct();
     $this->db->from('usuarios_sistemas');
     return $this->db->get()->result_array();
+  }
+
+
+  public function buscarUsuarioscomSistemas($status)
+  {    
+    $this->db->select('nome');
+    $this->db->distinct();
+    $this->db->from('usuarios_sistemas');
+    $this->db->join('sistemas_has_usuarios_sistemas', 'usuarios_sistemas_codigo = codigo', 'right');
+    $this->db->where('status', $status);
+
+    return $this->db->get();
   }
 }
